@@ -1,0 +1,59 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+# 1. Autolabeler: Traduce tus Ramas (Pizarra) a Etiquetas
+autolabeler:
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+/'
+      - '/feat\/.+/'
+      - '/locales\/.+/'   # Tu rama de "Locales"
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+      - '/bug\/.+/'
+  - label: 'hotfix'
+    branch:
+      - '/hot\/.+/'       # Tu rama "Hot"
+      - '/hotfix\/.+/'
+  - label: 'documentation'
+    branch:
+      - '/docs\/.+/'
+  - label: 'breaking'
+    branch:
+      - '/breaking\/.+/'
+
+# 2. Categorías: Ordena las notas en el Release final
+categories:
+  - title: '🚀 Nuevas Funcionalidades'
+    labels:
+      - 'enhancement'
+      - 'feature'
+  - title: '🐛 Corrección de Errores'
+    labels:
+      - 'bug'
+      - 'fix'
+  - title: '🔥 Hotfixes Críticos'
+    labels:
+      - 'hotfix'
+  - title: '⚠️ Breaking Changes'
+    labels:
+      - 'breaking'
+  - title: '📚 Documentación'
+    labels:
+      - 'documentation'
+
+# 3. Versionado Automático (SemVer)
+version-resolver:
+  major:
+    labels: ['breaking', 'major']
+  minor:
+    labels: ['enhancement', 'feature']
+  default: patch
+
+template: |
+  ## Resumen de Cambios
+  $CHANGES
+  
+  ---
+  *🚀 Release generado automáticamente*
