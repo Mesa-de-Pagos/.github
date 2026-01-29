@@ -1,0 +1,19 @@
+name: "Lógica Central Release Drafter"
+
+on:
+  workflow_call:
+    # Esto permite que otros repos llamen a este archivo
+
+jobs:
+  draft-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # Crucial para crear releases
+      pull-requests: write # Crucial para poner etiquetas
+    steps:
+      - uses: release-drafter/release-drafter@v6
+        with:
+          # Si no encuentra config en el repo hijo, la busca aquí (en el repo .github)
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
