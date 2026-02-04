@@ -1,29 +1,30 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 
-# 1. Autolabeler: Traduce tus Ramas (Pizarra) a Etiquetas
+# Excluir PRs que no nos interesan (Ruido)
+exclude-labels:
+  - 'skip-changelog'
+  - 'maintenance'
+  - 'chore'
+
 autolabeler:
   - label: 'enhancement'
     branch:
       - '/feature\/.+/'
       - '/feat\/.+/'
-      - '/locales\/.+/'   # Tu rama de "Locales"
   - label: 'bug'
     branch:
       - '/fix\/.+/'
       - '/bug\/.+/'
-  - label: 'hotfix'
+  # Vamos a detectar esos merges de Develop/Staging automáticamente
+  - label: 'maintenance'
     branch:
-      - '/hot\/.+/'       # Tu rama "Hot"
-      - '/hotfix\/.+/'
-  - label: 'documentation'
-    branch:
-      - '/docs\/.+/'
-  - label: 'breaking'
-    branch:
-      - '/breaking\/.+/'
+      - 'develop'
+      - 'staging'
+    title:
+      - '/^Develop$/'
+      - '/^Staging$/'
 
-# 2. Categorías: Ordena las notas en el Release final
 categories:
   - title: '🚀 Nuevas Funcionalidades'
     labels:
@@ -33,20 +34,16 @@ categories:
     labels:
       - 'bug'
       - 'fix'
-  - title: '🔥 Hotfixes Críticos'
+  - title: '🔌 Integraciones' # Veo que tienes fireblocks/key vault
     labels:
-      - 'hotfix'
-  - title: '⚠️ Breaking Changes'
-    labels:
-      - 'breaking'
-  - title: '📚 Documentación'
-    labels:
-      - 'documentation'
+      - 'integration'
+  # Esta categoría atrapa todo lo que NO tenga etiqueta
+  - title: '🔍 Otros Cambios'
+    labels: []
 
-# 3. Versionado Automático (SemVer)
 version-resolver:
   major:
-    labels: ['breaking', 'major']
+    labels: ['breaking']
   minor:
     labels: ['enhancement', 'feature']
   default: patch
@@ -54,6 +51,3 @@ version-resolver:
 template: |
   ## Resumen de Cambios
   $CHANGES
-  
-  ---
-  *🚀 Release generado automáticamente*
