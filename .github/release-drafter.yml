@@ -25,6 +25,10 @@ autolabeler:
       - '/^Develop$/'
       - '/^Staging$/'
 
+  - label: 'refactor'
+    branch:
+      -  '/refactor\/.+/'
+
 categories:
   - title: '🚀 Nuevas Funcionalidades'
     labels:
@@ -37,6 +41,10 @@ categories:
   - title: '🔌 Integraciones' # Veo que tienes fireblocks/key vault
     labels:
       - 'integration'
+
+  - title: '💻 Refactorización de Código'
+    labels:
+      - 'refactor'
   # Esta categoría atrapa todo lo que NO tenga etiqueta
   - title: '🔍 Otros Cambios'
     labels: []
@@ -45,7 +53,7 @@ version-resolver:
   major:
     labels: ['breaking']
   minor:
-    labels: ['enhancement', 'feature']
+    labels: ['enhancement', 'feature', 'refactor']
   default: patch
 
 template: |
