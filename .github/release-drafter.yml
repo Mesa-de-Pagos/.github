@@ -16,6 +16,10 @@ autolabeler:
     branch:
       - '/fix\/.+/'
       - '/bug\/.+/'
+
+  - label: 'docs'
+    branch:
+      - '/docs\/.+/'
   # Vamos a detectar esos merges de Develop/Staging automáticamente
   - label: 'maintenance'
     branch:
@@ -45,6 +49,10 @@ categories:
   - title: '💻 Refactorización de Código'
     labels:
       - 'refactor'
+
+  - title: '⬆️ Actualización de Documentación'
+    labels:
+      - 'docs'
   # Esta categoría atrapa todo lo que NO tenga etiqueta
   - title: '🔍 Otros Cambios'
     labels: []
@@ -53,7 +61,7 @@ version-resolver:
   major:
     labels: ['breaking']
   minor:
-    labels: ['enhancement', 'feature', 'refactor']
+    labels: ['enhancement', 'feature', 'refactor', 'docs']
   default: patch
 
 template: |
