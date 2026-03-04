@@ -33,8 +33,7 @@ jobs:
       - name: Copia scripts desde .github si quieres mantenerlos centralizados
         # Asume que tienes los scripts en .github/scripts, cópialos a la workspace actual
         run: |
-          cp ../.github/scripts/generate-multibranch-changelog.js .github/scripts/
-          cp ../.github/scripts/update-draft-release.js .github/scripts/
+          cp /.github/scripts/generate-multibranch-changelog.js .github/scripts/
 
       - name: Genera changelog y version
         env:
