@@ -1,6 +1,12 @@
 name: "Release Notes API Partner Centralizado"
 
 on:
+  # 1. Se ejecuta automáticamente al hacer merge o push a main
+  push:
+    branches:
+      - main
+      
+  # 2. Mantiene la opción de ejecutarlo manualmente
   workflow_dispatch:
     inputs:
       branch:
