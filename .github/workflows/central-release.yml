@@ -15,6 +15,7 @@ jobs:
       contents: write
 
     steps:
+      # 1. Clona el repositorio destino (api-partner) en la raíz del workspace
       - name: Check out api-partner repo
         uses: actions/checkout@v4
         with:
@@ -22,26 +23,33 @@ jobs:
           ref: ${{ inputs.branch }}
           token: ${{ secrets.API_PARTNER_PAT }}
 
+      # 2. Clona tu repositorio central (.github) en la subcarpeta 'central-repo'
+      - name: Check out central scripts repo
+        uses: actions/checkout@v4
+        with:
+          path: central-repo
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Instala dependencias
+      # 3. Instala dependencias SOLO dentro de la carpeta central-repo
+      - name: Instala dependencias del script
+        working-directory: ./central-repo
         run: npm install @octokit/rest semver
 
-      - name: Copia scripts desde .github si quieres mantenerlos centralizados
-        # Asume que tienes los scripts en .github/scripts, cópialos a la workspace actual
-        run: |
-          cp /.github/scripts/generate-multibranch-changelog.js .github/scripts/
-
+      # 4. Genera changelog y version
+      # Se ejecuta en la raíz (para que lea el código de api-partner)
+      # pero el script de Node usará los node_modules de central-repo
       - name: Genera changelog y version
         env:
           GITHUB_TOKEN: ${{ secrets.API_PARTNER_PAT }}
         run: |
-          node .github/scripts/generate-multibranch-changelog.js > multibranch-changelog.md
+          node central-repo/.github/scripts/generate-multibranch-changelog.js > multibranch-changelog.md
           echo "version=$(cat version.txt)" >> $GITHUB_ENV
 
+      # 5. Crear/Editar Draft Release
       - name: Crear/Editar Draft Release en api-partner
         env:
           GH_TOKEN: ${{ secrets.API_PARTNER_PAT }}
