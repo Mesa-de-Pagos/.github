@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: read
 
     steps:
       # 1. Clona el repositorio destino (api-partner) en la raíz del workspace
