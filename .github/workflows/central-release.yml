@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Mesa-de-Pagos/api-partner
-          ref: ${{ inputs.branch }}
+          ref: ${{ inputs.branch || 'main' }}
           token: ${{ secrets.API_PARTNER_PAT }}
 
       # 2. Clona tu repositorio central (.github) en la subcarpeta 'central-repo'
@@ -60,6 +60,7 @@ jobs:
       - name: Crear/Editar Draft Release en api-partner
         env:
           GH_TOKEN: ${{ secrets.API_PARTNER_PAT }}
+          TARGET_BRANCH: ${{ inputs.branch || 'main' }}
         run: |
           gh release create v${{ env.version }} --draft --notes-file multibranch-changelog.md --repo Mesa-de-Pagos/api-partner --target ${{ inputs.branch }} || \
           gh release edit v${{ env.version }} --notes-file multibranch-changelog.md --repo Mesa-de-Pagos/api-partner --target ${{ inputs.branch }}
